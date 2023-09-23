@@ -2,6 +2,7 @@ package config
 
 import (
 	"gin_golang/src/models"
+	"os"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
@@ -10,8 +11,9 @@ import (
 var DB *gorm.DB
 
 func InitDB() {
+	url := os.Getenv("URL")
 	var err error
-	DB, err = gorm.Open("mysql", "root:@/golang?charset=utf8&parseTime=True&loc=Local")
+	DB, err = gorm.Open("mysql", url)
 	if err != nil {
 		panic("failed to connect database")
 	}
