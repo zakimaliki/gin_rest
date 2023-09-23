@@ -1,8 +1,8 @@
-package routes
+package controllers
 
 import (
-	"gin_golang/config"
-	"gin_golang/models"
+	"gin_golang/src/config"
+	"gin_golang/src/models"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gosimple/slug"

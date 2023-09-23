@@ -1,7 +1,7 @@
 package config
 
 import (
-	"gin_golang/models"
+	"gin_golang/src/models"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
@@ -15,8 +15,5 @@ func InitDB() {
 	if err != nil {
 		panic("failed to connect database")
 	}
-	// defer DB.Close()
-
-	// Migrate the schema
 	DB.AutoMigrate(&models.Article{})
 }
