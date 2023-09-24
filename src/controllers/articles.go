@@ -1,38 +1,27 @@
 package controllers
 
 import (
-	"gin_golang/src/config"
 	"gin_golang/src/models"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gosimple/slug"
 )
 
-func GetHome(c *gin.Context) {
-	items := []models.Article{}
-	config.DB.Find(&items)
+func GetListArticle(c *gin.Context) {
+	res := models.SelectAll()
 	c.JSON(200, gin.H{
 		"status": "Berhasil",
-		"data":   items,
+		"data":   res,
 	})
 }
 
 func GetArticle(c *gin.Context) {
 	slug := c.Param("slug")
+	res := models.Select(slug)
 
-	var item models.Article
-
-	if config.DB.First(&item, "slug = ?", slug).RecordNotFound() {
-		c.JSON(404, gin.H{
-			"status":  "Error",
-			"message": "record not found",
-		})
-		c.Abort()
-		return
-	}
 	c.JSON(200, gin.H{
 		"status": "berhasil",
-		"data":   item,
+		"data":   res,
 	})
 }
 
@@ -44,11 +33,11 @@ func PostArticle(c *gin.Context) {
 		Slug:  slug.Make(c.PostForm("title")),
 	}
 
-	config.DB.Create(&item)
+	res := models.Post(&item)
 
 	c.JSON(201, gin.H{
 		"status": "Berhasil",
-		"data":   item,
+		"data":   res,
 	})
 }
 
@@ -61,23 +50,20 @@ func UpdateArticle(c *gin.Context) {
 		Slug:  slug.Make(c.PostForm("title")),
 	}
 
-	var item models.Article
-
-	config.DB.Model(&item).Where("id = ?", id).Updates(&newArticle)
+	res := models.Updates(id, &newArticle)
 
 	c.JSON(202, gin.H{
 		"status": "Berhasil",
-		"data":   item,
+		"data":   res,
 	})
 }
 
 func DeleteArticle(c *gin.Context) {
 	id := c.Param("id")
-	var item models.Article
-	config.DB.Delete(models.Article{}, "id = ?", id)
+	res := models.Deletes(id)
 
 	c.JSON(200, gin.H{
 		"status": "berhasil",
-		"data":   item,
+		"data":   res,
 	})
 }

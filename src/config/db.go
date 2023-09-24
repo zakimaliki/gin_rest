@@ -1,7 +1,6 @@
 package config
 
 import (
-	"gin_golang/src/models"
 	"os"
 
 	"github.com/jinzhu/gorm"
@@ -17,5 +16,4 @@ func InitDB() {
 	if err != nil {
 		panic("failed to connect database")
 	}
-	DB.AutoMigrate(&models.Article{})
 }

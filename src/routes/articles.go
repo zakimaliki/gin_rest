@@ -12,7 +12,7 @@ func Routing() {
 	{
 		articles := v1.Group("/article")
 		{
-			articles.GET("/", controllers.GetHome)
+			articles.GET("/", controllers.GetListArticle)
 			articles.GET("/:slug", controllers.GetArticle)
 			articles.POST("/", controllers.PostArticle)
 			articles.PUT("/:id", controllers.UpdateArticle)
