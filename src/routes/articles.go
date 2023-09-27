@@ -10,7 +10,11 @@ func Routing() {
 	app := gin.Default()
 	v1 := app.Group("/api/v1")
 	{
+		v1.GET("/auth/:provider", controllers.RedirectHandler)
+		v1.GET("/auth/:provider/callback", controllers.CallbackHandler)
+
 		articles := v1.Group("/article")
+
 		{
 			articles.GET("/", controllers.GetListArticle)
 			articles.GET("/:slug", controllers.GetArticle)
