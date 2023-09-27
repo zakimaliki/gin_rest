@@ -8,9 +8,10 @@ import (
 
 type Article struct {
 	gorm.Model
-	Title string
-	Slug  string `gorm:"unique_index"`
-	Desc  string `gorm:"type:text"`
+	Title  string
+	Slug   string `gorm:"unique_index"`
+	Desc   string `gorm:"type:text"`
+	UserID uint
 }
 
 func SelectAll() *gorm.DB {

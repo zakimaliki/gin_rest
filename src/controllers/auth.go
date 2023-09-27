@@ -55,18 +55,15 @@ func CallbackHandler(c *gin.Context) {
 	code := c.Query("code")
 	provider := c.Param("provider")
 
-	// Handle callback and check for errors
 	user, token, err := config.Gocial.Handle(state, code)
 	if err != nil {
 		c.Writer.Write([]byte("Error: " + err.Error()))
 		return
 	}
 
-	// Print in terminal user information
 	fmt.Printf("%#v", token)
 	fmt.Printf("%#v", user)
 	fmt.Printf("%#v", provider)
 
-	// If no errors, show provider name
 	c.Writer.Write([]byte("Hi, " + user.FullName))
 }
