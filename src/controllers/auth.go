@@ -1,11 +1,12 @@
 package controllers
 
 import (
-	"fmt"
 	"gin_golang/src/config"
+	"gin_golang/src/models"
 	"net/http"
 	"os"
 
+	"github.com/danilopolani/gocialite/structs"
 	"github.com/gin-gonic/gin"
 )
 
@@ -61,9 +62,29 @@ func CallbackHandler(c *gin.Context) {
 		return
 	}
 
-	fmt.Printf("%#v", token)
-	fmt.Printf("%#v", user)
-	fmt.Printf("%#v", provider)
+	var newUser = getOrRegisterUser(provider, user)
+	c.JSON(200, gin.H{
+		"data":    newUser,
+		"token":   token,
+		"message": "berhasil login",
+	})
+}
 
-	c.Writer.Write([]byte("Hi, " + user.FullName))
+func getOrRegisterUser(provider string, user *structs.User) models.User {
+	var userData models.User
+
+	config.DB.Where("provider = ? AND social_id = ?", provider, user.ID).First(&userData)
+
+	if userData.ID == 0 {
+		newUser := models.User{
+			FullName: user.FullName,
+			Email:    user.Email,
+			SocialId: user.ID,
+			Avatar:   user.Avatar,
+		}
+		config.DB.Create(&newUser)
+		return newUser
+	} else {
+		return userData
+	}
 }
