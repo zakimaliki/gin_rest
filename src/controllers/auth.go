@@ -1,12 +1,15 @@
 package controllers
 
 import (
+	"fmt"
 	"gin_golang/src/config"
 	"gin_golang/src/models"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/danilopolani/gocialite/structs"
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
 
@@ -56,16 +59,17 @@ func CallbackHandler(c *gin.Context) {
 	code := c.Query("code")
 	provider := c.Param("provider")
 
-	user, token, err := config.Gocial.Handle(state, code)
+	user, _, err := config.Gocial.Handle(state, code)
 	if err != nil {
 		c.Writer.Write([]byte("Error: " + err.Error()))
 		return
 	}
 
 	var newUser = getOrRegisterUser(provider, user)
+	var jwtToken = createToken(&newUser)
 	c.JSON(200, gin.H{
 		"data":    newUser,
-		"token":   token,
+		"token":   jwtToken,
 		"message": "berhasil login",
 	})
 }
@@ -87,4 +91,22 @@ func getOrRegisterUser(provider string, user *structs.User) models.User {
 	} else {
 		return userData
 	}
+}
+
+func createToken(user *models.User) string {
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"FullName":  user.FullName,
+		"Email":     user.Email,
+		"user_id":   user.ID,
+		"user_role": user.Role,
+		"exp":       time.Now().AddDate(0, 0, 7).Unix(),
+		"iat":       time.Now().Unix(),
+	})
+
+	tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET_KEY")))
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return tokenString
 }
