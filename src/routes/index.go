@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Routing() {
+func Router() {
 	app := gin.Default()
 	v1 := app.Group("/api/v1")
 	{
