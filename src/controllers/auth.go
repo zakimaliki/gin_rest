@@ -1,19 +1,16 @@
 package controllers
 
 import (
-	"fmt"
 	"gin_golang/src/config"
+	"gin_golang/src/helper"
 	"gin_golang/src/models"
+
 	"net/http"
 	"os"
-	"time"
 
 	"github.com/danilopolani/gocialite/structs"
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
-
-// https://github.com/danilopolani/gocialite/wiki/Multi-provider-example
 
 func RedirectHandler(c *gin.Context) {
 	provider := c.Param("provider")
@@ -65,8 +62,8 @@ func CallbackHandler(c *gin.Context) {
 		return
 	}
 
-	var newUser = getOrRegisterUser(provider, user)
-	var jwtToken = createToken(&newUser)
+	var newUser = models.GetOrRegisterUser(provider, user)
+	var jwtToken = helper.CreateToken(&newUser)
 	c.JSON(200, gin.H{
 		"data":    newUser,
 		"token":   jwtToken,
@@ -91,22 +88,4 @@ func getOrRegisterUser(provider string, user *structs.User) models.User {
 	} else {
 		return userData
 	}
-}
-
-func createToken(user *models.User) string {
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"FullName":  user.FullName,
-		"Email":     user.Email,
-		"user_id":   user.ID,
-		"user_role": user.Role,
-		"exp":       time.Now().AddDate(0, 0, 7).Unix(),
-		"iat":       time.Now().Unix(),
-	})
-
-	tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET_KEY")))
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	return tokenString
 }

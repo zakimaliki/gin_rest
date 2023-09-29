@@ -46,7 +46,5 @@ func checkJWT() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-
 	}
-
 }
