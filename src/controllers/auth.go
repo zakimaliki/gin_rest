@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/danilopolani/gocialite/structs"
 	"github.com/gin-gonic/gin"
 )
 
@@ -69,23 +68,4 @@ func CallbackHandler(c *gin.Context) {
 		"token":   jwtToken,
 		"message": "berhasil login",
 	})
-}
-
-func getOrRegisterUser(provider string, user *structs.User) models.User {
-	var userData models.User
-
-	config.DB.Where("provider = ? AND social_id = ?", provider, user.ID).First(&userData)
-
-	if userData.ID == 0 {
-		newUser := models.User{
-			FullName: user.FullName,
-			Email:    user.Email,
-			SocialId: user.ID,
-			Avatar:   user.Avatar,
-		}
-		config.DB.Create(&newUser)
-		return newUser
-	} else {
-		return userData
-	}
 }
