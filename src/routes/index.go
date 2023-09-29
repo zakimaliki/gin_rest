@@ -1,6 +1,8 @@
 package routes
 
 import (
+	"os"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,5 +19,5 @@ func Router() {
 			RouteArticle(v1)
 		}
 	}
-	app.Run()
+	app.Run(os.Getenv("PORT"))
 }
