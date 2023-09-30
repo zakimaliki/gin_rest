@@ -52,8 +52,15 @@ func FindData(title string) *gorm.DB {
 	return config.DB.Where("title LIKE ?", title).Find(&items)
 }
 
-func FindCond(sort string) *gorm.DB {
+func FindCond(sort string, limit int, offset int) *gorm.DB {
 	items := []Article{}
-	return config.DB.Order(sort).Find(&items)
+	return config.DB.Order(sort).Limit(limit).Offset(offset).Find(&items)
+
+}
+
+func CountData() int {
+	var result int
+	config.DB.Table("articles").Count(&result)
+	return result
 
 }

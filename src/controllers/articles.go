@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"gin_golang/src/models"
 	"log"
+	"math"
 	"net/http"
+	"strconv"
 	"strings"
 
 	// "path/filepath"
@@ -96,13 +98,24 @@ func FindArticle(c *gin.Context) {
 }
 
 func FindTest(c *gin.Context) {
+	pageOld := c.Query("page")
+	limitOld := c.Query("limit")
+	page, _ := strconv.Atoi(pageOld)
+	limit, _ := strconv.Atoi(limitOld)
+	offset := (page - 1) * limit
 	sort := c.Query("sort")
 	sortby := c.Query("sortby")
 	sort = sort + " " + strings.ToLower(sortby)
-	res := models.FindCond(sort)
+	res := models.FindCond(sort, limit, offset)
+	totalData := models.CountData()
+	totalPage := math.Ceil(float64(totalData) / float64(limit))
 
 	c.JSON(202, gin.H{
-		"status": "Berhasil",
-		"data":   res,
+		"status":      "Berhasil",
+		"data":        res,
+		"currentPage": page,
+		"limit":       limit,
+		"totalData":   totalData,
+		"totalPage":   totalPage,
 	})
 }
