@@ -103,7 +103,7 @@ func FindTest(c *gin.Context) {
 	offset := (page - 1) * limit
 	sort := c.Query("sort")
 	sortby := c.Query("sortby")
-	sort = sort + " " + strings.ToLower(sortby)
+	sort = sortby + " " + strings.ToLower(sort)
 	res := models.FindCond(sort, limit, offset)
 	totalData := models.CountData()
 	totalPage := math.Ceil(float64(totalData) / float64(limit))
