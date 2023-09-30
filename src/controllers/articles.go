@@ -9,8 +9,6 @@ import (
 	"strconv"
 	"strings"
 
-	// "path/filepath"
-
 	"github.com/gin-gonic/gin"
 	"github.com/gosimple/slug"
 )
