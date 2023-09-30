@@ -42,6 +42,9 @@ func Router() {
 			articles.PUT("/:id", controllers.UpdateArticle)
 			articles.DELETE("/:id", controllers.DeleteArticle)
 			articles.POST("/upload", controllers.Uploadfile)
+			articles.GET("/find", controllers.FindArticle)
+			articles.GET("/test", controllers.FindTest)
+
 		}
 	}
 	app.Run(os.Getenv("PORT"))

@@ -8,10 +8,9 @@ import (
 
 type Article struct {
 	gorm.Model
-	Title  string
-	Slug   string `gorm:"unique_index"`
-	Desc   string `gorm:"type:text"`
-	UserID uint
+	Title string
+	Slug  string `gorm:"unique_index"`
+	Desc  string `gorm:"type:text"`
 }
 
 func SelectAll() *gorm.DB {
@@ -45,4 +44,16 @@ func Updates(id string, newArticle *Article) *gorm.DB {
 func Deletes(id string) *gorm.DB {
 	var item Article
 	return config.DB.Delete(&item, "id = ?", id)
+}
+
+func FindData(title string) *gorm.DB {
+	items := []Article{}
+	title = "%" + title + "%"
+	return config.DB.Where("title LIKE ?", title).Find(&items)
+}
+
+func FindCond(sort string) *gorm.DB {
+	items := []Article{}
+	return config.DB.Order(sort).Find(&items)
+
 }

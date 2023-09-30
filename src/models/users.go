@@ -9,7 +9,6 @@ import (
 
 type User struct {
 	gorm.Model
-	Articles []Article
 	Username string
 	FullName string
 	Email    string

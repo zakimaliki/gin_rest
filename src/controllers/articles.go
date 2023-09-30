@@ -5,6 +5,7 @@ import (
 	"gin_golang/src/models"
 	"log"
 	"net/http"
+	"strings"
 
 	// "path/filepath"
 
@@ -82,19 +83,26 @@ func Uploadfile(c *gin.Context) {
 
 	c.SaveUploadedFile(file, path)
 	c.String(http.StatusOK, fmt.Sprintf("'%s' uploaded!", file.Filename))
+}
 
-	// Source
-	// file, err := c.FormFile("file")
-	// if err != nil {
-	// 	c.String(http.StatusBadRequest, "get form err: %s", err.Error())
-	// 	return
-	// }
+func FindArticle(c *gin.Context) {
+	keyword := c.Query("search")
+	res := models.FindData(keyword)
 
-	// filename := filepath.Base(file.Filename)
-	// if err := c.SaveUploadedFile(file, filename); err != nil {
-	// 	c.String(http.StatusBadRequest, "upload file err: %s", err.Error())
-	// 	return
-	// }
+	c.JSON(202, gin.H{
+		"status": "Berhasil",
+		"data":   res,
+	})
+}
 
-	// c.String(http.StatusOK, "File %s uploaded successfully", file.Filename)
+func FindTest(c *gin.Context) {
+	sort := c.Query("sort")
+	sortby := c.Query("sortby")
+	sort = sort + " " + strings.ToLower(sortby)
+	res := models.FindCond(sort)
+
+	c.JSON(202, gin.H{
+		"status": "Berhasil",
+		"data":   res,
+	})
 }
