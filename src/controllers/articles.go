@@ -95,7 +95,7 @@ func FindArticle(c *gin.Context) {
 	})
 }
 
-func FindTest(c *gin.Context) {
+func PaginatSortArticle(c *gin.Context) {
 	pageOld := c.Query("page")
 	limitOld := c.Query("limit")
 	page, _ := strconv.Atoi(pageOld)

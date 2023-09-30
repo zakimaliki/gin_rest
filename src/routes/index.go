@@ -30,9 +30,10 @@ func Router() {
 	}))
 	v1 := app.Group("/api/v1")
 	{
-		v1.Group("/auth")
+		users := v1.Group("/auth")
 		{
-			RouteUser(v1)
+			users.GET("/auth/:provider", controllers.RedirectHandler)
+			users.GET("/auth/:provider/callback", controllers.CallbackHandler)
 		}
 		articles := v1.Group("/article")
 		{
@@ -43,8 +44,7 @@ func Router() {
 			articles.DELETE("/:id", controllers.DeleteArticle)
 			articles.POST("/upload", controllers.Uploadfile)
 			articles.GET("/find", controllers.FindArticle)
-			articles.GET("/test", controllers.FindTest)
-
+			articles.GET("/test", controllers.PaginatSortArticle)
 		}
 	}
 	app.Run(os.Getenv("PORT"))
