@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"gin_golang/src/controllers"
 	"os"
 	"time"
 
@@ -33,9 +34,14 @@ func Router() {
 		{
 			RouteUser(v1)
 		}
-		v1.Group("/article")
+		articles := v1.Group("/article")
 		{
-			RouteArticle(v1)
+			articles.GET("/", controllers.GetListArticle)
+			articles.GET("/:slug", controllers.GetArticle)
+			articles.POST("/", controllers.PostArticle)
+			articles.PUT("/:id", controllers.UpdateArticle)
+			articles.DELETE("/:id", controllers.DeleteArticle)
+			articles.POST("/upload", controllers.Uploadfile)
 		}
 	}
 	app.Run(os.Getenv("PORT"))

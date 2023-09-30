@@ -13,4 +13,5 @@ func RouteArticle(articles *gin.RouterGroup) {
 	articles.POST("/", controllers.PostArticle)
 	articles.PUT("/:id", controllers.UpdateArticle)
 	articles.DELETE("/:id", controllers.DeleteArticle)
+	articles.GET("/upload", controllers.Uploadfile)
 }
