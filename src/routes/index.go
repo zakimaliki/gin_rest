@@ -41,7 +41,7 @@ func Router() {
 			articles.GET("/", controllers.GetListArticle)
 			articles.GET("/:slug", controllers.GetArticle)
 			articles.POST("/", controllers.PostArticle)
-			articles.PUT("/:id", controllers.UpdateArticle)
+			articles.PUT("/:slug", controllers.UpdateArticle)
 			articles.DELETE("/:id", controllers.DeleteArticle)
 			articles.POST("/upload", controllers.Uploadfile)
 			articles.GET("/find", controllers.FindArticle)

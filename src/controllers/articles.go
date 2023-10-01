@@ -41,7 +41,7 @@ func PostArticle(c *gin.Context) {
 
 	item := models.Article{
 		Title: c.PostForm("title"),
-		Desc:  c.PostForm("description"),
+		Desc:  c.PostForm("desc"),
 		Slug:  slug.Make(c.PostForm("title")),
 	}
 
@@ -54,15 +54,15 @@ func PostArticle(c *gin.Context) {
 }
 
 func UpdateArticle(c *gin.Context) {
-	id := c.Param("id")
+	slug := c.Param("slug")
 
 	newArticle := models.Article{
 		Title: c.PostForm("title"),
-		Desc:  c.PostForm("description"),
-		Slug:  slug.Make(c.PostForm("title")),
+		Desc:  c.PostForm("desc"),
+		Slug:  slug,
 	}
 
-	res := models.Updates(id, &newArticle)
+	res := models.Updates(slug, &newArticle)
 
 	if res.RowsAffected > 0 {
 		c.JSON(200, gin.H{

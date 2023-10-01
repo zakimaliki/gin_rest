@@ -37,12 +37,12 @@ func Post(item *Article) *gorm.DB {
 	return config.DB.Create(&item)
 }
 
-func Updates(id string, newArticle *Article) *gorm.DB {
+func Updates(slug string, newArticle *Article) *gorm.DB {
 	// items := []Article{}
 	// config.DB.Raw("UPDATE articles SET title = ?, slug = ? , description = ? WHERE id = ?", Title, Slug, Desc, Id).Scan(&items)
 	// return items
 	var item Article
-	return config.DB.Model(&item).Where("id = ?", id).Updates(&newArticle)
+	return config.DB.Model(&item).Where("slug = ?", slug).Updates(&newArticle)
 }
 
 func Deletes(id string) *gorm.DB {
