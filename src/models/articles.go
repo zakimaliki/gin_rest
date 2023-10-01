@@ -14,34 +14,41 @@ type Article struct {
 }
 
 func SelectAll() *gorm.DB {
+	// items := []Article{}
+	// config.DB.Raw("SELECT * FROM articles").Scan(&items)
+	// return items
+
 	items := []Article{}
 	return config.DB.Find(&items)
 }
 
 func Select(slug string) *gorm.DB {
+	// items := []Article{}
+	// config.DB.Raw("SELECT * FROM articles WHERE slug = ?", slug).Scan(&items)
+	// return items
 	var item Article
-	// var item models.Article
-	// if config.DB.First(&item, "slug = ?", slug).RecordNotFound() {
-	// 	c.JSON(404, gin.H{
-	// 		"status":  "Error",
-	// 		"message": "record not found",
-	// 	})
-	// 	c.Abort()
-	// 	return
-	// }
 	return config.DB.First(&item, "slug = ?", slug)
 }
 
 func Post(item *Article) *gorm.DB {
+	// items := []Article{}
+	// config.DB.Raw("INSERT INTO `articles` (`id`, `created_at`, `updated_at`, `deleted_at`, `title`, `slug`, `description`) VALUES(Null, NULL, NULL, NULL, ?, ?, ?)", Title, Slug, Desc).Scan(&items)
+	// return items
 	return config.DB.Create(&item)
 }
 
 func Updates(id string, newArticle *Article) *gorm.DB {
+	// items := []Article{}
+	// config.DB.Raw("UPDATE articles SET title = ?, slug = ? , description = ? WHERE id = ?", Title, Slug, Desc, Id).Scan(&items)
+	// return items
 	var item Article
 	return config.DB.Model(&item).Where("id = ?", id).Updates(&newArticle)
 }
 
 func Deletes(id string) *gorm.DB {
+	// items := []Article{}
+	// config.DB.Raw("DELETE FROM articles WHERE id = ?", Id).Scan(&items)
+	// return items
 	var item Article
 	return config.DB.Delete(&item, "id = ?", id)
 }

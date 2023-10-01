@@ -44,8 +44,18 @@ func Router() {
 			articles.DELETE("/:id", controllers.DeleteArticle)
 			articles.POST("/upload", controllers.Uploadfile)
 			articles.GET("/find", controllers.FindArticle)
-			articles.GET("/test", controllers.PaginatSortArticle)
+			articles.GET("/paginate", controllers.PaginatSortArticle)
+
 		}
+		test := v1.Group("/test")
+		{
+			test.GET("/", controllers.TestList)
+			test.GET("/:slug", controllers.Test)
+			test.POST("/", controllers.TestPost)
+			test.PUT("/:id", controllers.TestUpdate)
+			test.DELETE("/:id", controllers.TestDelete)
+		}
+
 	}
 	app.Run(os.Getenv("PORT"))
 }
