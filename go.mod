@@ -4,7 +4,7 @@ go 1.23
 
 require (
 	github.com/danielkov/gin-helmet v0.0.0-20171108135313-1387e224435e
-	github.com/danilopolani/gocialite v1.0.2
+	github.com/danilopolani/gocialite v1.0.0
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/dvwright/xss-mw v0.0.0-20191029162136-7a0dab86d8f6
 	github.com/gin-contrib/cors v1.4.0
@@ -12,7 +12,7 @@ require (
 	github.com/gosimple/slug v1.13.1
 	github.com/jinzhu/gorm v1.9.16
 	github.com/subosito/gotenv v1.6.0
-	gopkg.in/danilopolani/gocialite.v1 v1.0.2
+	gopkg.in/danilopolani/gocialite.v1 v1.0.0
 )
 
 require (
