@@ -1,6 +1,6 @@
 module gin_golang
 
-go 1.21.0
+go 1.23
 
 require (
 	github.com/danielkov/gin-helmet v0.0.0-20171108135313-1387e224435e
