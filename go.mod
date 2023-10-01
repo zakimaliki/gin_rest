@@ -1,6 +1,6 @@
 module gin_golang
 
-go 1.21.0
+go 1.23
 
 require (
 	github.com/danielkov/gin-helmet v0.0.0-20171108135313-1387e224435e
@@ -45,6 +45,7 @@ require (
 	github.com/oleiade/reflections v1.0.1 // indirect
 	github.com/pelletier/go-toml/v2 v2.1.0 // indirect
 	github.com/rogpeppe/go-internal v1.11.0 // indirect
+	github.com/tbxark/g4vercel v0.0.4 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.11 // indirect
 	golang.org/x/arch v0.5.0 // indirect
