@@ -4,7 +4,6 @@ go 1.23
 
 require (
 	github.com/danielkov/gin-helmet v0.0.0-20171108135313-1387e224435e
-	github.com/danilopolani/gocialite v1.0.2
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/dvwright/xss-mw v0.0.0-20191029162136-7a0dab86d8f6
 	github.com/gin-contrib/cors v1.4.0
@@ -42,7 +41,6 @@ require (
 	github.com/microcosm-cc/bluemonday v1.0.25 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
-	github.com/oleiade/reflections v1.0.1 // indirect
 	github.com/pelletier/go-toml/v2 v2.1.0 // indirect
 	github.com/rogpeppe/go-internal v1.11.0 // indirect
 	github.com/tbxark/g4vercel v0.0.4 // indirect
