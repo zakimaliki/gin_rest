@@ -95,10 +95,16 @@ func FindArticle(c *gin.Context) {
 	keyword := c.Query("search")
 	res := models.FindData(keyword)
 
-	c.JSON(202, gin.H{
-		"status": "Berhasil",
-		"data":   res,
-	})
+	if res.RowsAffected == 0 {
+		c.JSON(404, gin.H{
+			"msg": "Data not found",
+		})
+	} else {
+		c.JSON(202, gin.H{
+			"status": "Berhasil",
+			"data":   res,
+		})
+	}
 }
 
 func PaginatSortArticle(c *gin.Context) {
