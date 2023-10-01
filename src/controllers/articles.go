@@ -25,10 +25,16 @@ func GetArticle(c *gin.Context) {
 	slug := c.Param("slug")
 	res := models.Select(slug)
 
-	c.JSON(200, gin.H{
-		"status": "berhasil",
-		"data":   res,
-	})
+	if res.RowsAffected > 0 {
+		c.JSON(200, gin.H{
+			"status": "berhasil",
+			"data":   res,
+		})
+	} else {
+		c.JSON(404, gin.H{
+			"msg": "Data not found",
+		})
+	}
 }
 
 func PostArticle(c *gin.Context) {
@@ -58,20 +64,32 @@ func UpdateArticle(c *gin.Context) {
 
 	res := models.Updates(id, &newArticle)
 
-	c.JSON(202, gin.H{
-		"status": "Berhasil",
-		"data":   res,
-	})
+	if res.RowsAffected > 0 {
+		c.JSON(200, gin.H{
+			"status": "berhasil",
+			"data":   res,
+		})
+	} else {
+		c.JSON(404, gin.H{
+			"msg": "Data not found",
+		})
+	}
 }
 
 func DeleteArticle(c *gin.Context) {
 	id := c.Param("id")
 	res := models.Deletes(id)
 
-	c.JSON(200, gin.H{
-		"status": "berhasil",
-		"data":   res,
-	})
+	if res.RowsAffected > 0 {
+		c.JSON(200, gin.H{
+			"status": "berhasil",
+			"data":   res,
+		})
+	} else {
+		c.JSON(404, gin.H{
+			"msg": "Data not found",
+		})
+	}
 }
 
 func Uploadfile(c *gin.Context) {
@@ -95,14 +113,14 @@ func FindArticle(c *gin.Context) {
 	keyword := c.Query("search")
 	res := models.FindData(keyword)
 
-	if res.RowsAffected == 0 {
-		c.JSON(404, gin.H{
-			"msg": "Data not found",
+	if res.RowsAffected > 0 {
+		c.JSON(200, gin.H{
+			"status": "berhasil",
+			"data":   res,
 		})
 	} else {
-		c.JSON(202, gin.H{
-			"status": "Berhasil",
-			"data":   res,
+		c.JSON(404, gin.H{
+			"msg": "Data not found",
 		})
 	}
 }
@@ -120,12 +138,18 @@ func PaginatSortArticle(c *gin.Context) {
 	totalData := models.CountData()
 	totalPage := math.Ceil(float64(totalData) / float64(limit))
 
-	c.JSON(202, gin.H{
-		"status":      "Berhasil",
-		"data":        res,
-		"currentPage": page,
-		"limit":       limit,
-		"totalData":   totalData,
-		"totalPage":   totalPage,
-	})
+	if res.RowsAffected > 0 {
+		c.JSON(200, gin.H{
+			"status":      "Berhasil",
+			"data":        res,
+			"currentPage": page,
+			"limit":       limit,
+			"totalData":   totalData,
+			"totalPage":   totalPage,
+		})
+	} else {
+		c.JSON(404, gin.H{
+			"msg": "Data not found",
+		})
+	}
 }
