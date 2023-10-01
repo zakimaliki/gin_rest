@@ -16,6 +16,7 @@ func Router() {
 	app := gin.Default()
 	app.Use(helmet.Default())
 	var xssMdlwr xss.XssMw
+	app.MaxMultipartMemory = 1 // 8 MiB
 	app.Use(xssMdlwr.RemoveXss())
 	app.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"},
@@ -45,7 +46,6 @@ func Router() {
 			articles.POST("/upload", controllers.Uploadfile)
 			articles.GET("/find", controllers.FindArticle)
 			articles.GET("/paginate", controllers.PaginatSortArticle)
-
 		}
 		test := v1.Group("/test")
 		{
@@ -55,7 +55,6 @@ func Router() {
 			test.PUT("/:id", controllers.TestUpdate)
 			test.DELETE("/:id", controllers.TestDelete)
 		}
-
 	}
 	app.Run(os.Getenv("PORT"))
 }

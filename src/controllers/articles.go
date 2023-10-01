@@ -3,11 +3,11 @@ package controllers
 import (
 	"fmt"
 	"gin_golang/src/models"
-	"log"
 	"math"
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gosimple/slug"
@@ -77,12 +77,18 @@ func DeleteArticle(c *gin.Context) {
 func Uploadfile(c *gin.Context) {
 
 	file, _ := c.FormFile("file")
-	log.Println(file.Filename)
+	cekFile := strings.Split(file.Filename, ".")
 
-	path := "src/uploads" + file.Filename
+	if (cekFile[1] == "png") || (cekFile[1] == "jpg") || (cekFile[1] == "jpg") {
+		timestampOld := int(time.Now().Unix())
+		addFile := strconv.Itoa(timestampOld) + "_" + file.Filename
 
-	c.SaveUploadedFile(file, path)
-	c.String(http.StatusOK, fmt.Sprintf("'%s' uploaded!", file.Filename))
+		path := "src/uploads/" + addFile
+		c.SaveUploadedFile(file, path)
+		c.String(http.StatusOK, fmt.Sprintf("'%s' uploaded!", file.Filename))
+	} else {
+		c.String(http.StatusOK, fmt.Sprintf("File Picture format must PNG, JPG , or JPEG"))
+	}
 }
 
 func FindArticle(c *gin.Context) {
