@@ -15,7 +15,7 @@ type User struct {
 	SocialId string
 	Provider string
 	Avatar   string
-	Role     bool `gorm:"default:0"`
+	Role     bool
 }
 
 func GetOrRegisterUser(provider string, user *structs.User) User {
